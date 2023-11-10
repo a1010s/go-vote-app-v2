@@ -1,4 +1,4 @@
-name: test actions pipeline
+name: test actions pipeline (shared runners)
 
 on:
 #  push:
