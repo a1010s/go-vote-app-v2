@@ -1,4 +1,4 @@
-name: Deploy Server
+name: deploy and run webserver
 
 on:
 #  push:
@@ -18,24 +18,17 @@ jobs:
       with:
         go-version: 1.21
 
-    #- name: Setup SSH Keys and known_hosts
-    #  env:
-    #      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-    #  run: |
-    #      mkdir -p ~/.ssh
-    #      ssh-keyscan github.com >> ~/.ssh/known_hosts
-    #      ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-    #      ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-
 
     - name: Build and deploy
-      run: |
-        echo "Building the application..."
-        go build -o myapp
-        echo "Copying the application to the server..."
-        scp -o StrictHostKeyChecking=no myapp root@217.160.248.96:/root/voteapp-deploy
-        echo "Restarting the application on the server..."
-        ssh -o StrictHostKeyChecking=no root@217.160.248.96 "cd /root/voteapp-deploy && ./myapp"
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{secrets.HOST}}
+        username: ${{secrets.USERNAME}}
+        key: ${{secrets.SSH_PRIVATE_KEY}}
+        port: 22
+        script: |
+          echo "Building the application..."
+          go build -o myapp
+          echo "Restarting the application on the server..."
+          ./myapp
 
-      #env:
-      #  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
