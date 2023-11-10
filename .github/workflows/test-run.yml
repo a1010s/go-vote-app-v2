@@ -1,4 +1,4 @@
-name: test actions pipeline (shared runners)
+name: Deploy Server
 
 on:
 #  push:
@@ -13,8 +13,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Run short script
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17
+
+    - name: Build and deploy
       run: |
-        echo Hello, world!!
-        sleep 15
-        echo Goodbye!
+        echo "Building the application..."
+        go build -o myapp
+        echo "Copying the application to the server..."
+        scp myapp root@217.160.248.96:/root/voteapp-deploy
+        echo "Restarting the application on the server..."
+        ssh root@217.160.248.96 "cd /root/voteapp-deploy && ./myapp"
+
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
