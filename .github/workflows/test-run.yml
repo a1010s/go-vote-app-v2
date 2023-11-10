@@ -1,4 +1,4 @@
-name: test run actions
+name: test actions pipeline
 
 on:
 #  push:
@@ -18,4 +18,3 @@ jobs:
         echo Hello, world!!
         sleep 15
         echo Goodbye!
-
