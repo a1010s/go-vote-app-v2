@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{.Question}}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: rgb(64, 68, 71);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .vote-button {
+            width: 150px;
+            height: 60px;
+            font-size: 18px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            background-color: #4caf50;
+            color: white;
+        }
+        .vote-button:hover {
+            background-color: #45a049;
+        }
+        .icon {
+            margin-right: 10px;
+        }
+        .result {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{.Question}}</h1>
+        <form action="/vote" method="post">
+            <button type="submit" name="vote" value="{{.Option1}}" class="vote-button">
+                <i class="fas fa-thumbs-up"></i> {{.Option1}}
+            </button>
+            <button type="submit" name="vote" value="{{.Option2}}" class="vote-button">
+                <i class="fas fa-thumbs-down"></i> {{.Option2}}
+            </button>
+        </form>
+        <div class="result">
+            <p>{{.Option1}} Votes: <span id="option1-votes">{{.Option1Votes}}</span></p>
+            <p>{{.Option2}} Votes: <span id="option2-votes">{{.Option2Votes}}</span></p>
+        </div>
+    </div>
+    
+</body>
+</html>
