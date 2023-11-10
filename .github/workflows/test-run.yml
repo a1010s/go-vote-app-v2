@@ -28,6 +28,7 @@ jobs:
         port: 22
         script: |
           echo "Building the application..."
+          cd /root/go-vote-app-v2
           go build -o myapp
           echo "Restarting the application on the server..."
           ./myapp
