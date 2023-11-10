@@ -29,7 +29,8 @@ jobs:
             cd /root/go-vote-app-v2
             go build -o myapp
             echo "Running the application on the server..."
-            ./myapp &
+            setsid ./myapp &  # Start the process in the background and detach it from the terminal
+            echo $! > myapp.pid  # Save the PID to a file for later use
     
       
       - name: Finish and destroy
@@ -42,6 +43,7 @@ jobs:
           script: |
             sleep 20
             echo "Stopping the application on the server..."
-            pkill -f 'myapp' || true
+            pkill -P $(cat myapp.pid)  # Kill the process group using the saved PID
+            rm myapp.pid  # Clean up the PID file
             rm /root/go-vote-app-v2/myapp
             rm -rf /root/go-vote-app-v2/badger-db
