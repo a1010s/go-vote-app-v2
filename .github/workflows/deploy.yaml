@@ -21,8 +21,8 @@ jobs:
     - name: Build and deploy
       run: |
         go build -o myapp
-        scp myapp user@your-server-ip:/path/to/deployment/folder/
-        ssh user@your-server-ip "cd /path/to/deployment/folder/ && ./myapp"
+        scp myapp root@217.160.248.96:/root/voteapp-deploy
+        ssh root@217.160.248.96 "cd /root/voteapp-deploy && ./myapp"
 
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
