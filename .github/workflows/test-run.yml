@@ -1,48 +1,37 @@
 name: deploy and run webserver
 
 on:
-#  push:
-#    branches:
-#      - main
   workflow_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
 
-
-    - name: Build and deploy
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{secrets.HOST}}
-        username: ${{secrets.USERNAME}}
-        key: ${{secrets.SSH_PRIVATE_KEY}}
-        port: 22
-        script: |
-          echo "Building the application..."
-          cd /root/go-vote-app-v2
-          go build -o myapp
-          echo "Restarting the application on the server..."
-          ./myapp
-    - name: Wait for 20 seconds
-      run: sleep 20s
-
-    - name: Stop the application
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{secrets.HOST}}
-        username: ${{secrets.USERNAME}}
-        key: ${{secrets.SSH_PRIVATE_KEY}}
-        port: 22
-        script: |
-          echo "Stopping the application on the server..."
-          pkill -f myapp
+      - name: Build and deploy
+        uses: appleboy/ssh-action@master
+        id: build
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          port: 22
+          script: |
+            echo "Building the application..."
+            cd /root/go-vote-app-v2
+            go build -o myapp
+            echo "Running the application on the server..."
+            ./myapp &
+            sleep 20
+            pkill -f myapp
+            rm /root/go-vote-app-v2/myapp
+            rm -rf /root/go-vote-app-v2/badger-db
 
