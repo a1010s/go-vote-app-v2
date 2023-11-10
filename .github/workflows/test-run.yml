@@ -23,9 +23,9 @@ jobs:
         echo "Building the application..."
         go build -o myapp
         echo "Copying the application to the server..."
-        scp myapp root@217.160.248.96:/root/voteapp-deploy
+        scp -o StrictHostKeyChecking=no myapp root@217.160.248.96:/root/voteapp-deploy
         echo "Restarting the application on the server..."
-        ssh root@217.160.248.96 "cd /root/voteapp-deploy && ./myapp"
+        ssh -o StrictHostKeyChecking=no root@217.160.248.96 "cd /root/voteapp-deploy && ./myapp"
 
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
