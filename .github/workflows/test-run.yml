@@ -28,18 +28,4 @@ jobs:
             echo "Building the application..."
             cd /root/go-vote-app-v2
             go build -o myapp
-            ./myapp &
-
-      - name: Build and deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{secrets.HOST}}
-          username: ${{secrets.USERNAME}}
-          key: ${{secrets.SSH_PRIVATE_KEY}}
-          port: 22
-          script: |      
-            echo "Stopping the application on the server..."
-            sleep 10
-            pkill -f myapp 
-            rm /root/go-vote-app-v2/myapp
-            rm /root/go-vote-app-v2/myapp
+            ./run.sh
