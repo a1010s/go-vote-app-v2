@@ -32,7 +32,6 @@ jobs:
 
       - name: Build and deploy
         uses: appleboy/ssh-action@master
-        id: build
         with:
           host: ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
