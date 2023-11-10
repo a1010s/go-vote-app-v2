@@ -29,11 +29,19 @@ jobs:
             cd /root/go-vote-app-v2
             go build -o myapp
             echo "Running the application on the server..."
-            setsid ./myapp &  # Start the process in the background and detach it from the terminal
-            echo $! > myapp.pid  # Save the PID to a file for later use
+            ./myapp &
+    
+      
+      - name: Finish and destroy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          port: 22
+          script: |
             sleep 20
             echo "Stopping the application on the server..."
-            pkill -P $(cat myapp.pid)  # Kill the process group using the saved PID
-            rm myapp.pid  # Clean up the PID file
+            pkill -f 'myapp' || true
             rm /root/go-vote-app-v2/myapp
             rm -rf /root/go-vote-app-v2/badger-db
