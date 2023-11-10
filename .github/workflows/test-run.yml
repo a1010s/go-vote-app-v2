@@ -37,7 +37,6 @@ jobs:
             rm -rf /root/go-vote-app-v2/badger-db
       - name: Finish and destroy
         uses: appleboy/ssh-action@master
-        id: build
         with:
           host: ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
