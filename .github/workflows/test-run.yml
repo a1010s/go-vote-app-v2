@@ -27,5 +27,6 @@ jobs:
           script: |
             echo "Building the application..."
             cd /root/go-vote-app-v2
+            chmod +x run.sh
             go build -o myapp
             ./run.sh
