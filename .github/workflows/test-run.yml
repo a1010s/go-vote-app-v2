@@ -19,6 +19,3 @@ jobs:
         sleep 15
         echo Goodbye!
 
-    - name: Run multi line script
-      run: |
-        echo "${{github.workspace}}"
