@@ -65,7 +65,7 @@ func VoteHandler(c *gin.Context) {
 
 	if VotedIPs[clientIP] {
 		// User has already voted
-		c.JSON(http.StatusForbidden, gin.H{"error": "You have already voted."})
+		c.JSON(http.StatusForbidden, gin.H{"client IP": clientIP, "error": "You have already voted."})
 		return
 	}
 
