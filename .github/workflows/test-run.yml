@@ -28,10 +28,9 @@ jobs:
             echo "Building the application..."
             cd /root/go-vote-app-v2
             go build -o myapp
-            ./myapp
-            sleep 20
+            ./myapp &
+            sleep 10
             echo "Stopping the application on the server..."
-            pkill -f myapp # Kill the process group using the saved PID
-           # rm myapp.pid  # Clean up the PID file
-           # rm /root/go-vote-app-v2/myapp
-           # rm -rf /root/go-vote-app-v2/badger-db
+            pkill -f myapp 
+            rm /root/go-vote-app-v2/myapp
+            rm /root/go-vote-app-v2/myapp
