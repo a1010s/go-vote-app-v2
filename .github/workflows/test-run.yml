@@ -32,4 +32,17 @@ jobs:
           go build -o myapp
           echo "Restarting the application on the server..."
           ./myapp
+    - name: Wait for 20 seconds
+      run: sleep 20s
+
+    - name: Stop the application
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{secrets.HOST}}
+        username: ${{secrets.USERNAME}}
+        key: ${{secrets.SSH_PRIVATE_KEY}}
+        port: 22
+        script: |
+          echo "Stopping the application on the server..."
+          pkill -f myapp
 
