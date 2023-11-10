@@ -32,6 +32,20 @@ jobs:
             ./myapp &
             sleep 20
             echo "Stopping the application on the server..."
-            kill -15 $(pgrep -f 'myapp') || true
+            pkill -f 'myapp' || true
+            rm /root/go-vote-app-v2/myapp
+            rm -rf /root/go-vote-app-v2/badger-db
+      - name: Finish and destroy
+        uses: appleboy/ssh-action@master
+        id: build
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          port: 22
+          script: |
+            sleep 20
+            echo "Stopping the application on the server..."
+            pkill -f 'myapp' || true
             rm /root/go-vote-app-v2/myapp
             rm -rf /root/go-vote-app-v2/badger-db
