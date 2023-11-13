@@ -17,7 +17,7 @@ resource "ionoscloud_lan" "internet" {
 // Server
 resource "ionoscloud_server" "server" {
   #count             = 1
-  name              = "server${var.id_name} ${var.location}"
+  name              = "${var.id_name}"
   datacenter_id     = ionoscloud_datacenter.golang-app.id
   availability_zone = "AUTO"
   cores             = 1
