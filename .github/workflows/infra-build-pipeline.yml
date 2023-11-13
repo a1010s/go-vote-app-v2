@@ -34,21 +34,13 @@ jobs:
           terraform init
           terraform apply -auto-approve
           # Save the server_ip output to a file
-          terraform output -raw server_ip | awk '{print $3}' > /tmp/server_ip
+          # terraform output -raw server_ip | awk '{print $3}' > /tmp/server_ip
 
         env:
           TF_VAR_other_variable: value
           IONOS_TOKEN: ${{ secrets.TF_TOK }}
 
-      - name: Check IP File?
-        run: |
-          cat /tmp/server_ip 
-          export SERVER_IP=$(cat /tmp/server_ip)
-
-      - name: Check ENV Var! 
-        run: |
-          echo $SERVER_IP
-          sleep 10
+      
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
