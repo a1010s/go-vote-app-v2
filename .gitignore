@@ -9,3 +9,7 @@ infrastructure/*.terraform.lock.hcl
 
 # Ignore directories used by Terraform
 infrastructure/.terraform/
+
+infrastructure/ssh-pub-key
+
+internal-infos.md

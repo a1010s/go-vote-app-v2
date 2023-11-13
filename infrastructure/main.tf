@@ -12,7 +12,9 @@ resource "ionoscloud_lan" "internet" {
   datacenter_id = ionoscloud_datacenter.golang-app.id
 }
 
-
+data "ionoscloud_ipblock" "fix-ip" {
+  name = "go-app"
+}
 
 // Server
 resource "ionoscloud_server" "server" {
@@ -24,8 +26,8 @@ resource "ionoscloud_server" "server" {
   ram               = 2048
   cpu_family        = "INTEL_SKYLAKE"
   image_name        = "ubuntu:latest"
-  ssh_key_path      = ["/tmp/ssh-pub-key"]
-
+  ssh_key_path      = ["/home/astegaru/.ssh/id_rsa.pub"] # "/tmp/ssh-pub-key"]
+  
   volume {
     name      = "server-volume${var.location} boot"
     size      = 10
@@ -33,8 +35,11 @@ resource "ionoscloud_server" "server" {
   }
   nic {
     lan             = ionoscloud_lan.internet.id
-    dhcp            = true
-    firewall_active = false
+    //ips        = ["85.215.144.35"]
+    ips        = ["${data.ionoscloud_ipblock.fix-ip.ips[0]}"]
+
+    //dhcp            = true
+    //firewall_active = false
 
   }
   lifecycle {
