@@ -28,7 +28,8 @@ jobs:
           terraform init
           terraform apply -auto-approve
         env:
-          TF_VAR_other_variable: value # You can add other Terraform variables as needed
+          TF_VAR_other_variable: value
+          IONOS_TOKEN: ${{ secrets.TF_TOK }}
 
       - name: Get server IP
         id: get-ip
