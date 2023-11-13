@@ -16,6 +16,12 @@ jobs:
         with:
           terraform_version: 0.14.7 # Specify the version you need
 
+      - name: Set IonosCloud Token
+        env:
+          IONOS_TOKEN: ${{ secrets.TF_TOK }}
+        run: |
+          export IONOS_TOKEN
+
       - name: Deploy Infrastructure
         run: |
           cd infrastructure
