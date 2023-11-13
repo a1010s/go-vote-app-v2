@@ -12,6 +12,16 @@ resource "ionoscloud_lan" "internet" {
   datacenter_id = ionoscloud_datacenter.golang-app.id
 }
 
+locals {
+  ssh_key_content = <<-EOT
+    ${secrets.SSH_PUB_KEY_FOR_TF_SERVER}
+  EOT
+}
+
+data "template_file" "ssh_key" {
+  template = local.ssh_key_content
+}
+
 // Server
 resource "ionoscloud_server" "server" {
   #count             = 1
@@ -22,7 +32,7 @@ resource "ionoscloud_server" "server" {
   ram               = 2048
   cpu_family        = "INTEL_SKYLAKE"
   image_name        = "ubuntu:latest"
-  ssh_key_path      = ["/home/astegaru/.ssh/id_rsa.pub"]
+  ssh_key_path      = data.template_file.ssh_key.rendered
 
   volume {
     name      = "server-volume${var.location} boot"
