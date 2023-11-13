@@ -39,13 +39,12 @@ jobs:
           TF_VAR_other_variable: value
           IONOS_TOKEN: ${{ secrets.TF_TOK }}
 
-      - name: Get server IP
-        id: get-ip
-        run: |
-          # Assuming your Terraform output file is named "output.tf"
-          SERVER_IP=$(cat /tmp/server_ip)
-          echo "Server IP: $SERVER_IP"
-          echo "SERVER_IP=$SERVER_IP" >> $GITHUB_ENV
+      - name: Set up Environment Variable
+        run: echo "SERVER_IP=$(cat /tmp/server_ip)" >> $GITHUB_ENV
+
+      - name: Set up Environment Variable
+        run: echo "SERVER_IP=$(cat /tmp/server_ip)" >> $GITHUB_ENV
+
 
       - name: Set up Go
         uses: actions/setup-go@v4
