@@ -32,7 +32,7 @@ jobs:
         run: |
           cd infrastructure
           terraform init
-          terraform apply -auto-approve
+          terraform apply -auto-approve -var="ionoscloud_token=${IONOS_TOKEN}"
           
       - name: Set up Go
         uses: actions/setup-go@v4
