@@ -1,0 +1,53 @@
+name: deploy infra, build app
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.7 # Specify the version you need
+
+      - name: Deploy Infrastructure
+        run: |
+          cd infrastructure
+          terraform init
+          terraform apply -auto-approve
+        env:
+          TF_VAR_other_variable: value # You can add other Terraform variables as needed
+
+      - name: Get server IP
+        id: get-ip
+        run: |
+          # Assuming your Terraform output file is named "output.tf"
+          SERVER_IP=$(terraform output -raw server_ip)
+          echo "Server IP: $SERVER_IP"
+          echo "SERVER_IP=$SERVER_IP" >> $GITHUB_ENV
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
+
+      - name: Build and deploy
+        uses: appleboy/ssh-action@master
+        id: build
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          port: 22
+          script: |
+            echo "Building the application..."
+            cd /root/go-vote-app-v2
+            chmod +x run.sh
+            go build -o myapp
+            ./run.sh

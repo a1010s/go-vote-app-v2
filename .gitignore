@@ -1,3 +1,11 @@
 badger-db/
 do-git.sh
-infrastructure/
+
+# Ignore Terraform state files
+terraform.tfstate
+infrastructure/*.tfstate
+infrastructure/*.tfstate.*
+infrastructure/*.terraform.lock.hcl
+
+# Ignore directories used by Terraform
+infrastructure/.terraform/
