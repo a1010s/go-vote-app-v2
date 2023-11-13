@@ -39,13 +39,10 @@ jobs:
           TF_VAR_other_variable: value
           IONOS_TOKEN: ${{ secrets.TF_TOK }}
 
-      - name: Set up Environment Variable
-        run: echo "SERVER_IP=$(cat /tmp/server_ip)" > $GITHUB_ENV
-
-      - name: Set up Environment Variable
-        run: echo "SERVER_IP=$(cat /tmp/server_ip)" > $GITHUB_ENV
-
-
+      - name: Check IP File?
+        run: |
+          cat /tmp/server_ip 
+          export SERVER_IP=$(cat /tmp/server_ip)
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
