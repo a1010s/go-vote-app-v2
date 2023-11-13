@@ -1,4 +1,4 @@
-name: deploy and run webserver
+name: test run | pipeline
 
 on:
   workflow_dispatch:

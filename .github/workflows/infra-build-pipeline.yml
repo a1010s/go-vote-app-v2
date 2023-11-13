@@ -1,4 +1,4 @@
-name: deploy infra, build app
+name: deploy infra | build app | run server
 
 on:
   workflow_dispatch:
