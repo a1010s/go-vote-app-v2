@@ -37,9 +37,6 @@ jobs:
           TF_VAR_other_variable: value
           IONOS_TOKEN: ${{ secrets.TF_TOK }}
 
-      - name: Install jq
-        run: apt-get install jq
-
       - name: Get server IP
         id: get-ip
         run: |
