@@ -37,11 +37,13 @@ jobs:
           TF_VAR_other_variable: value
           IONOS_TOKEN: ${{ secrets.TF_TOK }}
 
+      - name: Install jq
+        run: apt-get install jq
+
       - name: Get server IP
         id: get-ip
         run: |
-          # Assuming your Terraform output file is named "output.tf"
-          SERVER_IP=$(terraform output -raw server_ip)
+          SERVER_IP=$(terraform show -json | jq -r '.values.root_module.resources[0].values.ip')
           echo "Server IP: $SERVER_IP"
           echo "SERVER_IP=$SERVER_IP" >> $GITHUB_ENV
 
