@@ -10,6 +10,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      # Add a step to copy the SSH public key file
+      - name: Copy SSH public key
+        run: |
+          mkdir -p /tmp
+          cp infrastructure/ssh-pub-key /tmp/ssh-pub-key
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
