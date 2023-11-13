@@ -24,7 +24,7 @@ resource "ionoscloud_server" "server" {
   ram               = 2048
   cpu_family        = "INTEL_SKYLAKE"
   image_name        = "ubuntu:latest"
-  ssh_key_path      = [var.var.ssh-pub-key]
+  ssh_key_path      = [var.ssh-pub-key]
 
   volume {
     name      = "server-volume${var.location} boot"
