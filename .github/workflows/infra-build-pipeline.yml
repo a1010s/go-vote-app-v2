@@ -33,6 +33,8 @@ jobs:
           cd infrastructure
           terraform init
           terraform apply -auto-approve
+          # Save the server_ip output to a file
+          terraform output -raw server_ip > /tmp/server_ip
         env:
           TF_VAR_other_variable: value
           IONOS_TOKEN: ${{ secrets.TF_TOK }}
@@ -40,7 +42,8 @@ jobs:
       - name: Get server IP
         id: get-ip
         run: |
-          SERVER_IP=$(terraform output -raw server_ip)
+          # Assuming your Terraform output file is named "output.tf"
+          SERVER_IP=$(cat /tmp/server_ip)
           echo "Server IP: $SERVER_IP"
           echo "SERVER_IP=$SERVER_IP" >> $GITHUB_ENV
 
