@@ -12,14 +12,12 @@ resource "ionoscloud_lan" "internet" {
   datacenter_id = ionoscloud_datacenter.golang-app.id
 }
 
-locals {
-  ssh_key_content = <<-EOT
-    ${secrets.SSH_PUB_KEY_FOR_TF_SERVER}
-  EOT
+provider "github" {
+  token = secrets.GITHUB_TOKEN
 }
 
-data "template_file" "ssh_key" {
-  template = local.ssh_key_content
+data "github_secret" "ssh_pub_key" {
+  secret_name = "SSH_PUB_KEY_FOR_TF_SERVER"
 }
 
 // Server
@@ -32,7 +30,7 @@ resource "ionoscloud_server" "server" {
   ram               = 2048
   cpu_family        = "INTEL_SKYLAKE"
   image_name        = "ubuntu:latest"
-  ssh_key_path      = data.template_file.ssh_key.rendered
+  ssh_key_path      = data.github_secret.ssh_pub_key.plaintext
 
   volume {
     name      = "server-volume${var.location} boot"
