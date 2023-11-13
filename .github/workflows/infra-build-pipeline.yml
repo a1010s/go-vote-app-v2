@@ -48,7 +48,7 @@ jobs:
         uses: appleboy/ssh-action@master
         id: build
         with:
-          host: ${{secrets.HOST}}
+          host: ${{ env.SERVER_IP }} # Use the environment variable here instead of ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
           key: ${{secrets.SSH_PRIVATE_KEY}}
           port: 22
